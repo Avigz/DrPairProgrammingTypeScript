@@ -1,14 +1,7 @@
 import axios, {
-    AxiosRequestConfig,
     AxiosResponse,
     AxiosError,
-    AxiosInstance,
-    AxiosAdapter,
-    Cancel,
-    CancelToken,
-    CancelTokenSource,
-    Canceler
-} from "../../node_modules/axios";
+} from "../../node_modules/axios/index";
 
 import { json2table100 } from "./generictable";
 
@@ -42,11 +35,10 @@ interface IAddress {
     geo: { lat: string; long: string };
 }
 
-axios.get<IUser>("http://jsonplaceholder.typicode.com/users").
-    then(function (response: AxiosResponse<IUser[]>): void {
-        // buildAndShowLongHtmlString(response);
-        // addToDom(response);
-        console.log(response.data);
+axios.get<IUser[]>("http://jsonplaceholder.typicode.com/users")
+    .then(function (response: AxiosResponse<IUser[]>): void {
+        let data: IUser[] = response.data;
+        console.log(data);
         let result: string = json2table100(response.data);
         console.log(result);
         let element: HTMLDivElement = <HTMLDivElement>document.getElementById("content");
