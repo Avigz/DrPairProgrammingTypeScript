@@ -35,9 +35,9 @@ interface IAddress {
     geo: { lat: string; long: string };
 }
 
-axios.get<IUser[]>("http://jsonplaceholder.typicode.com/users")
-    .then(function (response: AxiosResponse<IUser[]>): void {
-        let data: IUser[] = response.data;
+axios.get<IComment[]>("http://jsonplaceholder.typicode.com/comments")
+    .then(function (response: AxiosResponse<IComment[]>): void {
+        let data: IComment[] = response.data;
         console.log(data);
         let result: string = json2table100(response.data);
         console.log(result);
