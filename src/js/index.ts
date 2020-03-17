@@ -5,45 +5,66 @@ import axios, {
 
 import { json2table100 } from "./generictable";
 
+
 // https://github.com/axios/axios/blob/master/test/typescript/axios.ts
-// attributes from REST service http://jsonplaceholder.typicode.com/comments
-// simple object
-interface IComment {
-    postId: number;
+// Book object
+
+interface IBook {
     id: number;
-    name: string;
-    email: string;
-    body: string;
+    title: string;
+    author: string;
+    publisher: string;
+    price: number;
+}
+let PostHandler: HTMLButtonElement = <HTMLButtonElement>document.getElementById("post");
+PostHandler.addEventListener("click", PostPress)
+
+function PostPress(): void{
+    event.preventDefault();
+    let idForm = <HTMLInputElement>document.getElementById("id"); 
+    let titleForm = <HTMLInputElement>document.getElementById("Title"); 
+    let authorForm = <HTMLInputElement>document.getElementById("Author"); 
+    let publisherForm = <HTMLInputElement>document.getElementById("Publisher"); 
+    let priceForm = <HTMLInputElement>document.getElementById("Price"); 
+
+    let idNum: number = Number(idForm.value);
+    let titleStr: string = titleForm.value;
+    let authorStr: string = authorForm.value;
+    let publisherStr: string = publisherForm.value;
+    let priceNum: number = Number(priceForm.value);
+
+
+    axios.post<IBook>("http://anbo-bookstorerest.azurewebsites.net/api/Books",{
+
+    id: idNum, title:  titleStr, author: authorStr,
+    publisher: publisherStr, price: priceNum
+    })
+    .then((response) => {
+        console.log(response);
+    })
+    
+    .catch((error) => {console.log(error)})
+ButtonPress();
+
 }
 
-// more advanced object, including nested objects (and double nested objects)
-interface IUser {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-    address: IAddress;
-    phone: string;
-    company: { name: string; catchPhrase: string; bs: string };
-}
 
-interface IAddress {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: { lat: string; long: string };
-}
+let ButtonHandler: HTMLButtonElement = <HTMLButtonElement>document.getElementById("B1");
+ButtonHandler.addEventListener("click", ButtonPress)
 
-axios.get<IComment[]>("http://jsonplaceholder.typicode.com/comments")
-    .then(function (response: AxiosResponse<IComment[]>): void {
-        let data: IComment[] = response.data;
+
+function ButtonPress(): void{
+axios.get<IBook[]>("http://anbo-bookstorerest.azurewebsites.net/api/books")
+    .then(function (response: AxiosResponse<IBook[]>): void {
+        let data: IBook[] = response.data;
         console.log(data);
         let result: string = json2table100(response.data);
         console.log(result);
         let element: HTMLDivElement = <HTMLDivElement>document.getElementById("content");
         element.innerHTML = result;
     })
+    
     .catch(function (error: AxiosError): void {
         console.log(JSON.stringify(error));
     });
+}
