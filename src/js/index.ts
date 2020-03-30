@@ -16,7 +16,12 @@ interface IMusicRecord {
     recordTitle: string;
     recordDuration: number;
     yearOfPuplication: number;
-    artist: IArtist;
+    artist:{
+        artistName: string;
+        recordLabel: string;
+        country: string;
+        artistId: number;
+        }
     id: number;
 }
 interface IArtist {
