@@ -9,15 +9,21 @@ import { json2table100 } from "./generictable";
 // https://github.com/axios/axios/blob/master/test/typescript/axios.ts
 // Book object
 
-let formSelect: number = 0;
 
 
-interface IBook {
+
+interface IMusicRecord {
+    recordTitle: string;
+    recordDuration: number;
+    yearOfPuplication: number;
+    artist: IArtist;
     id: number;
-    title: string;
-    author: string;
-    publisher: string;
-    price: number;
+}
+interface IArtist {
+    artistName: string;
+    recordLabel: string;
+    country: string;
+    artistId: number;
 }
 
 function PostPress(): void {
@@ -37,7 +43,7 @@ function PostPress(): void {
 
     
 
-    axios.post<IBook>("http://anbo-bookstorerest.azurewebsites.net/api/Books",{
+    axios.post<IMusicRecord>("https://v2drpairprogramming.azurewebsites.net/api/musicrecords", {
 
     id: idNum, title:  titleStr, author: authorStr,
     publisher: publisherStr, price: priceNum
@@ -58,15 +64,15 @@ ButtonHandler.addEventListener("click", ButtonPress)
 
 
 function ButtonPress(): void{
-axios.get<IBook[]>("http://anbo-bookstorerest.azurewebsites.net/api/books")
-    .then(function (response: AxiosResponse<IBook[]>): void {
-        let data: IBook[] = response.data;
+    axios.get < IMusicRecord[]>("https://v2drpairprogramming.azurewebsites.net/api/musicrecords")
+        .then(function (response: AxiosResponse<IMusicRecord[]>): void {
+            let data: IMusicRecord[] = response.data;
         console.log(data);
         let result: string = json2table100(response.data);
         console.log(result);
         let element: HTMLDivElement = <HTMLDivElement>document.getElementById("content");
         element.innerHTML = result;
-        formSelect = 1;
+       
         ApiForm();
         
     })
